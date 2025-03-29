@@ -1,5 +1,3 @@
-// src/index.js
-
 export default {
   async fetch(request, env) {
     try {
@@ -31,14 +29,17 @@ export default {
 
       // ==================== 动态路由匹配 ====================
       for (const [pathPrefix, targetBase] of Object.entries(routes)) {
-        if (url.pathname.startsWith(pathPrefix)) {
+        // 使用 encodeURIComponent 确保路径前缀的安全性
+        const safePathPrefix = encodeURIComponent(pathPrefix);
+
+        if (url.pathname.startsWith(safePathPrefix)) {
           console.log(`[Routing] Matched prefix: ${pathPrefix} -> ${targetBase}`);
 
           // ==================== 构建目标URL ====================
           const targetUrl = new URL(targetBase);
           
           // 路径重写：移除前缀并保留后续路径
-          const newPath = url.pathname.replace(new RegExp(`^${pathPrefix}`), '') || '/';
+          const newPath = url.pathname.replace(new RegExp(`^${safePathPrefix}`), '') || '/';
           targetUrl.pathname = newPath;
           
           // 保留原始查询参数
@@ -93,7 +94,8 @@ export default {
         `🚨 Proxy Error: ${error.message}\n\n` + 
         `📌 Request URL: ${request.url}\n` +
         `🔧 Worker Version: ${env.WORKER_VERSION || 'unknown'}\n` +
-        `📅 Timestamp: ${new Date().toISOString()}`,
+        `📅 Timestamp: ${new Date().toISOString()}\n` +
+        `🛠️ Error Trace: ${error.stack}`,
         {
           status: 500,
           headers: { 

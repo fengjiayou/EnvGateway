@@ -2,11 +2,5 @@ name = "envgateway"
 main = "src/index.js"
 compatibility_date = "2024-05-01"
 
-# 请将以下内容原样复制（不要增减空格）
 [env.vars]
-WRK_ROUTES = '''
-{
-  "/koodo-reader/": "https://koodo-reader-sever.19820805.xyz",
-  "/blog/": "https://blog.fengmayou.top"
-}
-'''  # 必须对齐左侧无空格
+WRK_ROUTES = '{"/koodo-reader/": "https://koodo-reader-sever.19820805.xyz", "/blog/": "https://blog.fengmayou.top"}'
