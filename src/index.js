@@ -1,8 +1,12 @@
 addEventListener("fetch", event => {
   const url = new URL(event.request.url);
-  
-  // 获取环境变量中的路由配置
-  const routeConfig = JSON.parse(event.env.ROUTE_CONFIG); // 解析为对象
+
+  // 配置多个目标主机名，根据路径选择目标
+  const routeConfig = {
+    "/gh/": "cdn.jsdelivr.net",  // /gh/ 路径代理到 cdn.jsdelivr.net
+    "/baidu/": "www.baidu.com",  // /baidu/ 路径代理到 www.baidu.com
+    "/example/": "www.example.com"  // /example/ 路径代理到 www.example.com
+  };
 
   let targetHostname = null;
 

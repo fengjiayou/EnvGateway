@@ -1,12 +1,3 @@
 name = "envgateway"
 main = "src/index.js"
 compatibility_date = "2024-05-01"
-
-[env.vars]
-ROUTE_CONFIG = '''
-{
-  "/blog/": "blog.fengmayou.top",
-  "/baidu/": "www.baidu.com",
-  "/example/": "www.example.com"
-}
-'''
