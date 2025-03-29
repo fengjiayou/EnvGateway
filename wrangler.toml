@@ -3,4 +3,5 @@ main = "src/index.js"
 compatibility_date = "2024-05-01"
 
 [env.vars]
-WRK_ROUTES = '{"/koodo-reader/": "https://koodo-reader-sever.19820805.xyz", "/blog/": "https://blog.fengmayou.top"}'
+WRK_ROUTES = "{\"/koodo-reader/\": \"https://koodo-reader-sever.19820805.xyz\", \"/blog/\": \"https://blog.fengmayou.top\"}"
+
