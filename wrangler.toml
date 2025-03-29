@@ -1,4 +1,4 @@
-name = "EnvGateway"
+name = "envgateway"
 main = "src/index.js"
 compatibility_date = "2024-05-01"
 
