@@ -6,8 +6,10 @@ const CONFIG_URL = ""; // 远程 JSON 配置（如果为空，则使用本地）
 
 const defaultRouteConfig = {
   "/gh/": "https://cdn.jsdelivr.net",
-  "/baidu/": "https://www.baidu.com",
+  "/blog/": "https://blog.fengmayou.top",
+  "/gh/": "https://cdn.jsdelivr.net",
   "/example/": "https://www.example.com"
+
 };
 
 async function handleRequest(request) {
