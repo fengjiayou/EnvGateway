@@ -3,4 +3,4 @@ main = "src/index.js"
 compatibility_date = "2024-05-01"
 
 [vars]
-CONFIG_URL = "https://your-server.com/routeConfig.json"
+CONFIG_URL = "https://fengjiayou.github.io/EnvGateway/routes.json"

@@ -5,9 +5,7 @@ addEventListener("fetch", (event) => {
 const CONFIG_URL = ""; // 远程 JSON 配置（如果为空，则使用本地）
 
 const defaultRouteConfig = {
-  "/gh/": "https://cdn.jsdelivr.net",
-  "/koodo-reader/": "https://koodo-reader-sever.19820805.xyz/",
-  "/baidu/": "https://www.baidu.com",
+  "/github/": "https://github.com/fengjiayou/EnvGateway",
   "/example/": "https://www.example.com"
 };
 
