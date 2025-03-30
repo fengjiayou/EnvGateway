@@ -2,56 +2,25 @@ addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event.request));
 });
 
-const CONFIG_URL = ""; // 设置远程 JSON 配置地址（如果为空，则使用本地默认配置）
+const CONFIG_URL = ""; // 远程 JSON 配置（如果为空，则使用本地）
 
 const defaultRouteConfig = {
-  "/blog/": "https://blog.fengmayou.top",
+  "/gh/": "https://cdn.jsdelivr.net",
   "/baidu/": "https://www.baidu.com",
   "/example/": "https://www.example.com"
 };
 
-// 处理特殊请求头的规则
-const specialCases = {
-  "*": {
-    "Origin": "DELETE",
-    "Referer": "DELETE"
-  }
-};
-
-// 处理请求头，根据规则删除或修改
-function handleSpecialCases(request) {
-  const url = new URL(request.url);
-  const rules = specialCases[url.hostname] || specialCases["*"];
-  
-  for (const [key, value] of Object.entries(rules)) {
-    switch (value) {
-      case "KEEP":
-        break;
-      case "DELETE":
-        request.headers.delete(key);
-        break;
-      default:
-        request.headers.set(key, value);
-        break;
-    }
-  }
-}
-
 async function handleRequest(request) {
   let routeConfig = defaultRouteConfig;
 
-  // **尝试从远程 JSON 读取配置**
   if (CONFIG_URL) {
     try {
       const response = await fetch(CONFIG_URL);
       if (response.ok) {
         routeConfig = await response.json();
-        console.log("✅ 成功加载在线配置");
-      } else {
-        console.warn("⚠️ 远程配置加载失败，使用本地默认配置");
       }
     } catch (error) {
-      console.error("❌ 远程配置无法加载，使用本地默认配置:", error);
+      console.warn("⚠️ 无法加载远程配置，使用本地默认配置");
     }
   }
 
@@ -61,45 +30,42 @@ async function handleRequest(request) {
   }
 
   let targetBase = null;
-
-  // **匹配代理规则**
   for (const [pathPrefix, target] of Object.entries(routeConfig)) {
     if (url.pathname.startsWith(pathPrefix)) {
       targetBase = target;
-      url.pathname = url.pathname.replace(pathPrefix, ""); // 移除匹配前缀
+      url.pathname = url.pathname.replace(pathPrefix, "");
       break;
     }
   }
 
-  // **没有匹配的代理路径**
   if (!targetBase) {
-    return new Response("404 Not Found\nNo matching route found", {
-      status: 404,
-      headers: { "Content-Type": "text/plain" }
-    });
+    return new Response("404 Not Found\nNo matching route found", { status: 404 });
   }
 
-  // **构造目标 URL**
   const targetUrl = new URL(targetBase);
-  targetUrl.pathname += url.pathname; // 保持路径
-  targetUrl.search = url.search; // 保留查询参数
+  targetUrl.pathname += url.pathname;
+  targetUrl.search = url.search;
 
-  console.log(`🔀 代理到: ${targetUrl.toString()}`);
-
-  // **创建新的请求**
   const modifiedRequest = new Request(targetUrl, {
-    headers: new Headers(request.headers), // 复制原始请求头
+    headers: new Headers(request.headers),
     method: request.method,
     body: request.body,
     redirect: "follow"
   });
 
-  handleSpecialCases(modifiedRequest); // 处理特殊请求头
+  // **🔧 强制桌面版**
+  modifiedRequest.headers.set(
+    "User-Agent",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  );
+  modifiedRequest.headers.set(
+    "Accept",
+    "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
+  );
+  modifiedRequest.headers.set("CF-Connecting-IP", "8.8.8.8");
 
   try {
     const response = await fetch(modifiedRequest);
-
-    // **处理 CORS 头部**
     const modifiedResponse = new Response(response.body, response);
     modifiedResponse.headers.set("Access-Control-Allow-Origin", "*");
     return modifiedResponse;
