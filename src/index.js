@@ -5,7 +5,7 @@ addEventListener("fetch", (event) => {
 const CONFIG_URL = ""; // 设置远程 JSON 配置地址（如果为空，则使用本地默认配置）
 
 const defaultRouteConfig = {
-  "/gh/": "https://cdn.jsdelivr.net",
+  "/blog/": "https://blog.fengmayou.top",
   "/baidu/": "https://www.baidu.com",
   "/example/": "https://www.example.com"
 };
