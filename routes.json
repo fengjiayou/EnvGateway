@@ -1,6 +1,6 @@
 {
-  "/github/": "https://github.com/fengjiayou/EnvGateway",
-  "/baidu/": "https://www.baidu.com",
-  "/example/": "https://www.example.com",
-  "/google/": "https://www.google.com"
+    "/github/": "github.com/fengjiayou/EnvGateway",
+    "/baidu/": "www.baidu.com",
+    "/example/": "www.example.com",
+    "/google/": "www.google.com"
 }
