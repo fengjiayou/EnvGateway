@@ -5,8 +5,8 @@ addEventListener("fetch", (event) => {
 const CONFIG_URL = ""; // 远程 JSON 配置（如果为空，则使用本地）
 
 const defaultRouteConfig = {
-  "/github/": "github.com/fengjiayou/EnvGateway",
-  "/example/": "www.example.com"
+  "/github/": "https://github.com/fengjiayou/EnvGateway",
+  "/example/": "https://www.example.com"
 };
 
 const specialCases = {
